@@ -38,12 +38,12 @@ These instructions will help you get a copy of the project up and running on you
 3. Run the Server on attacker machine
    ```bass
    python2 Server.py
-4. Run the Client.py in victim machine
+4. Run the Client.py on victim machine
    ```bash
    python2 Client.py
 
 
-##Commands
+**Commands**
 
 1. This shell works on predefind syntax only. Its recommended to use the same syntax in same format
 
@@ -67,12 +67,17 @@ These instructions will help you get a copy of the project up and running on you
     Syntax -> screencap desitnation_path
   example -->> screencap D:/ss.png [Screenshot will be saved on D drive on attacker machine
 
+6. Change Drectory
+     ```bash
+     Syntac -> cd path
 
-6. More featrues will be added in the future.
-7. Script regarding persistent will be added in futur commits
+
+8. More featrues will be added in the future.
+9. Script regarding persistent will be added in futur commits
+
+    
 
 **Note: Don't forget to do neccesary changes before executing the sripts.**
-
 **Happy Hacking**
 
       
