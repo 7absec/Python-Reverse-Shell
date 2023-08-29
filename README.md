@@ -71,9 +71,9 @@ These instructions will help you get a copy of the project up and running on you
 6. More featrues will be added in the future.
 7. Script regarding persistent will be added in futur commits
 
-##Note: Don't forget to do neccesary changes before executing the sripts.
+## Note: Don't forget to do neccesary changes before executing the sripts.
 
-##Happy Hacking
+## Happy Hacking
 
       
       
